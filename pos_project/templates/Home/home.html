@@ -4,3 +4,7 @@
   {% csrf_token %}
   <button type="submit">Logout</button>
 </form>
+
+<form method="get" action="{% url 'change_password' %}">
+  <button type="submit">Change Password</button>
+</form>
