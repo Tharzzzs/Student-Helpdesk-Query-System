@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const matchError = document.getElementById("match-error");
   const submitBtn = form.querySelector('button[type="submit"]');
 
-  // password requirement checks
+
   const checks = {
     length: (pw) => pw.length >= 8,
     lower: (pw) => /[a-z]/.test(pw),
@@ -20,11 +20,11 @@ document.addEventListener("DOMContentLoaded", function () {
       if (checks[checkType](pw)) {
         req.classList.remove("invalid");
         req.classList.add("valid");
-        req.style.display = "none"; // hide fulfilled
+        req.style.display = "none"; 
       } else {
         req.classList.remove("valid");
         req.classList.add("invalid");
-        req.style.display = "block"; // show if not fulfilled
+        req.style.display = "block"; 
       }
     });
   }
@@ -71,6 +71,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  updateRequirements(""); // run once on load
+  updateRequirements("");
   updateSubmitState();
 });
