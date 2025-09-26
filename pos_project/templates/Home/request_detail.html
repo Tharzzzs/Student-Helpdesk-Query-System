@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Request Details</title>
+</head>
+<body>
+  <h1>📄 Request Details</h1>
+
+  {% if error_message %}
+    <p style="color:red;">{{ error_message }}</p>
+  {% else %}
+    <p><strong>ID:</strong> {{ req.id }}</p>
+    <p><strong>Title:</strong> {{ req.title }}</p>
+    <p><strong>Status:</strong> {{ req.status }}</p>
+    <p><strong>Date:</strong> {{ req.date }}</p>
+    <p><strong>Description:</strong> {{ req.description }}</p>
+  {% endif %}
+
+<a href="{% url 'dashboard' %}">⬅ Back to Dashboard</a>
+
+</body>
+</html>
