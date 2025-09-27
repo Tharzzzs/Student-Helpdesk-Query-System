@@ -1,6 +1,6 @@
 # Create your views here.
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
+from .models import Request
 
 def login_view(request):
     if request.method == 'POST':
@@ -75,27 +76,44 @@ def change_password(request):
 
 @login_required(login_url='login')
 def dashboard_view(request):
-    # 📊 Temporary data (User Story 1)
-    requests_list = [
-        {"id": 1, "title": "Password Reset", "status": "Pending", "date": "2025-10-07"},
-        {"id": 2, "title": "Course Enrollment Issue", "status": "Approved", "date": "2025-10-06"},
-        {"id": 3, "title": "Schedule Change", "status": "Cancelled", "date": "2025-10-05"},
-    ]
+    requests_list = Request.objects.all().order_by('-date')  # latest first
     return render(request, 'Home/dashboard.html', {"requests": requests_list})
 
 
 @login_required(login_url='login')
 def request_detail(request, id):
-    # temp nga data sa details
-    requests_list = [
-        {"id": 1, "title": "Password Reset", "status": "Pending", "date": "2025-10-07", "description": "User requested a password reset due to forgotten credentials."},
-        {"id": 2, "title": "Course Enrollment Issue", "status": "Approved", "date": "2025-10-06", "description": "Issue with enrolling in CS101 course has been resolved."},
-        {"id": 3, "title": "Schedule Change", "status": "Cancelled", "date": "2025-10-05", "description": "Requested schedule change was cancelled by the admin."},
-    ]
-
-    req = next((r for r in requests_list if r["id"] == id), None)
-
-    if not req:
-        return render(request, 'Home/request_detail.html', {"error_message": "Request not found."})
-
+    req = get_object_or_404(Request, id=id)
     return render(request, 'Home/request_detail.html', {'req': req})
+
+
+@login_required(login_url='login')
+def edit_request(request, id):
+    req = get_object_or_404(Request, id=id)
+    if request.method == 'POST':
+        req.title = request.POST.get('title')
+        req.status = request.POST.get('status')
+        req.date = request.POST.get('date')
+        req.description = request.POST.get('description')
+        req.save()
+        return redirect('dashboard')
+    return render(request, 'Home/edit_request.html', {'req': req})
+
+
+@login_required(login_url='login')
+def delete_request(request, id):
+    req = get_object_or_404(Request, id=id)
+    if request.method == 'POST':
+        req.delete()
+        return redirect('dashboard')
+    return render(request, 'Home/confirm_delete.html', {'req': req})
+
+@login_required(login_url='login')
+def add_request(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        status = request.POST.get('status')
+        date = request.POST.get('date')
+        description = request.POST.get('description')
+        Request.objects.create(title=title, status=status, date=date, description=description)
+        return redirect('dashboard')
+    return render(request, 'Home/add_request.html')

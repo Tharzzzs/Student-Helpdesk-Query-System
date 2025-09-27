@@ -5,17 +5,12 @@
   <title>Dashboard</title>
 </head>
 <body>
-  
+  <h1>Dashboard</h1>
 
-  <!-- 🛠️ Error message (User Story 5) -->
-  {% if error_message %}
-    <p style="color: red; font-weight: bold;">{{ error_message }}</p>
-  {% endif %}
+  <a href="{% url 'add_request' %}">Add New Request</a>
 
-  <!-- 🔎 Search bar (User Story 3) -->
   <input type="text" id="search" placeholder="Search requests..." onkeyup="filterTable()">
 
-  <!-- 📋 Requests Table (User Story 1 + 4) -->
   {% if requests %}
     <table id="requestsTable" border="1">
       <thead>
@@ -35,10 +30,7 @@
           <td>{{ req.status }}</td>
           <td>{{ req.date }}</td>
           <td>
-            <!-- 👁️‍🗨️ View More navigates to detail page (User Story 2) -->
             <a href="{% url 'request_detail' req.id %}">View More</a>
-            <button>Edit</button>
-            <button>Cancel</button>
           </td>
         </tr>
         {% endfor %}
@@ -49,11 +41,9 @@
   {% endif %}
 
   <script>
-    // 🔍 Filter/Search (User Story 3)
     function filterTable() {
       const input = document.getElementById("search").value.toLowerCase();
       const rows = document.querySelectorAll("#requestsTable tbody tr");
-
       rows.forEach(row => {
         row.style.display = row.innerText.toLowerCase().includes(input) ? "" : "none";
       });
