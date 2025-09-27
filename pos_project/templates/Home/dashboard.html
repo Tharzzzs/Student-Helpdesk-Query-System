@@ -3,9 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard</title>
+  {% load static %}
+
+  <link rel="stylesheet" href="{% static 'pos_app/css/dashboard.css' %}">
 </head>
+
 <body>
-  <h1>Dashboard</h1>
+  <h1>BitByte</h1>
 
   <a href="{% url 'add_request' %}">Add New Request</a>
 
