@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Request</title>
+</head>
+<body>
+  <h1>Add New Request</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    <p>Title: <input type="text" name="title" required></p>
+    <p>Status: 
+      <select name="status" required>
+        <option value="Pending">Pending</option>
+        <option value="Approved">Approved</option>
+        <option value="Cancelled">Cancelled</option>
+      </select>
+    </p>
+    <p>Date: <input type="date" name="date" required></p>
+    <p>Description: <textarea name="description"></textarea></p>
+    <button type="submit">Save</button>
+  </form>
+
+  <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+</body>
+</html>
