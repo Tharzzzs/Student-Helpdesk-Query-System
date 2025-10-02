@@ -29,7 +29,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.success(request, 'Logout successful!')
-    return redirect('')
+    return redirect('landing')
 
 
 def register_view(request):
@@ -80,13 +80,13 @@ def dashboard_view(request):
     return render(request, 'Home/dashboard.html', {"requests": requests_list})
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def request_detail(request, id):
     req = get_object_or_404(Request, id=id)
     return render(request, 'Home/request_detail.html', {'req': req})
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def edit_request(request, id):
     req = get_object_or_404(Request, id=id)
     if request.method == 'POST':
@@ -99,7 +99,7 @@ def edit_request(request, id):
     return render(request, 'Home/edit_request.html', {'req': req})
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def delete_request(request, id):
     req = get_object_or_404(Request, id=id)
     if request.method == 'POST':
@@ -107,7 +107,7 @@ def delete_request(request, id):
         return redirect('dashboard')
     return render(request, 'Home/confirm_delete.html', {'req': req})
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def add_request(request):
     if request.method == 'POST':
         title = request.POST.get('title')
