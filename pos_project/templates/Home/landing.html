@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EduAssist - Guiding Every Student</title>
+    {% load static %}
+
+  <link rel="stylesheet" href="{% static 'pos_app/css/landing.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">EduAssist</div>
+        <nav>
+            <a href="#">Help</a>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}" class="signup-btn">Sign Up</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="left">
+            <h1>Edu<span>Assist</span></h1>
+            <h2>Guiding Every Student, Every Step.</h2>
+            <p>
+                EduAssist makes student support simple and efficient. 
+                Submit and track your queries in real time, stay updated at every step, 
+                and get the assistance you need — fast, clear, and hassle-free.
+            </p>
+            <a href="{% url 'register' %}" class="get-started">Get Started</a>
+        </section>
+
+        <section class="right">
+            <div class="preview-box">
+                
+            </div>
+        </section>
+    </main>
+</body>
+</html>

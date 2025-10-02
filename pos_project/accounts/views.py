@@ -29,7 +29,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.success(request, 'Logout successful!')
-    return redirect('login')
+    return redirect('')
 
 
 def register_view(request):
@@ -117,3 +117,7 @@ def add_request(request):
         Request.objects.create(title=title, status=status, date=date, description=description)
         return redirect('dashboard')
     return render(request, 'Home/add_request.html')
+
+
+def landing_page(request):
+    return render(request, 'Home/landing.html')
