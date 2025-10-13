@@ -4,11 +4,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-
-from .models import Request
+from django.db.models import Q
+from .models import Request, Profile
+from .forms import ProfileForm, SearchForm
+from django.http import HttpResponseForbidden
 
 def login_view(request):
     if request.method == 'POST':
@@ -76,19 +78,36 @@ def change_password(request):
 
 @login_required(login_url='login')
 def dashboard_view(request):
-    requests_list = Request.objects.all().order_by('-date')  # latest first
-    return render(request, 'Home/dashboard.html', {"requests": requests_list})
+    form = SearchForm(request.GET)
+    if request.user.is_staff:
+        requests = Request.objects.all()  # Admin sees all requests
+    else:
+        requests = Request.objects.filter(user=request.user)  # Regular user sees only their requests
 
+    if form.is_valid() and form.cleaned_data['search']:
+        query = form.cleaned_data['search']
+        requests = requests.filter(
+            Q(title__icontains=query) | Q(status__icontains=query)
+        )
 
+    return render(request, 'Home/dashboard.html', {'requests': requests, 'form': form})
 # @login_required(login_url='login')
 def request_detail(request, id):
+
     req = get_object_or_404(Request, id=id)
+    # Only allow the owner or admin to view
+    if not (request.user == req.user or request.user.is_staff):
+        return HttpResponseForbidden("You do not have permission to view this request.")
     return render(request, 'Home/request_detail.html', {'req': req})
 
 
 # @login_required(login_url='login')
 def edit_request(request, id):
     req = get_object_or_404(Request, id=id)
+    # Only allow the owner or admin to edit
+    if not (request.user == req.user or request.user.is_staff):
+        return HttpResponseForbidden("You do not have permission to edit this request.")
+
     if request.method == 'POST':
         req.title = request.POST.get('title')
         req.status = request.POST.get('status')
@@ -96,15 +115,17 @@ def edit_request(request, id):
         req.description = request.POST.get('description')
         req.save()
         return redirect('dashboard')
-    return render(request, 'Home/edit_request.html', {'req': req})
+
+    return render(request, 'Home/edit_request.html', {'request_obj': req})
 
 
 # @login_required(login_url='login')
 def delete_request(request, id):
-    req = get_object_or_404(Request, id=id)
+    req = get_object_or_404(Request, id=id, user=request.user)
     if request.method == 'POST':
         req.delete()
         return redirect('dashboard')
+
     return render(request, 'Home/confirm_delete.html', {'req': req})
 
 # @login_required(login_url='login')
@@ -114,10 +135,39 @@ def add_request(request):
         status = request.POST.get('status')
         date = request.POST.get('date')
         description = request.POST.get('description')
-        Request.objects.create(title=title, status=status, date=date, description=description)
+
+        Request.objects.create(
+            user=request.user,
+            title=title,
+            status=status,
+            date=date,
+            description=description
+        )
         return redirect('dashboard')
+
     return render(request, 'Home/add_request.html')
 
 
 def landing_page(request):
     return render(request, 'Home/landing.html')
+
+@login_required    
+def profile(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully.")
+            return redirect('profile')
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, 'Home/profile.html', {'form': form})
+
+
+@user_passes_test(lambda u: u.is_staff)
+def admin_dashboard(request):
+    users = Profile.objects.select_related('user').all()
+    return render(request, 'Home/admin_dashboard.html', {'users': users})

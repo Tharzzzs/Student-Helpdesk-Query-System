@@ -1,0 +1,133 @@
+/* Edit Request Page - EduAssist Theme */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f6fa;
+  margin: 0;
+  padding: 40px;
+  color: #1e1e2f;
+  line-height: 1.6;
+}
+
+h1 {
+  color: #000;
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Added red accent for EduAssist branding */
+h1 .accent {
+  color: #c62828;
+}
+
+form {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  max-width: 600px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-top: 1.2rem;
+  color: #000;
+  font-size: 0.95rem;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  background: #fff;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #c62828;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.1);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Updated button styling to match EduAssist black primary buttons */
+button,
+.button {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #000;
+  color: white;
+  padding: 0.8rem 1.6rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+button:hover,
+.button:hover {
+  background-color: #c62828;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(198, 40, 40, 0.3);
+}
+
+/* Updated cancel button with red accent */
+.button.cancel {
+  background-color: #e53935;
+  margin-left: 10px;
+}
+
+.button.cancel:hover {
+  background-color: #c62828;
+}
+
+.button.back {
+  background-color: #607d8b;
+}
+
+.button.back:hover {
+  background-color: #546e7a;
+}
+
+.form-actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 20px;
+  }
+
+  form {
+    padding: 1.5rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .button {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+}
