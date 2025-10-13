@@ -67,7 +67,7 @@ def change_password(request):
             user = form.save()
             update_session_auth_hash(request, user)
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('home')
+            return redirect('dashboard')
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
@@ -104,7 +104,7 @@ def request_detail(request, id):
 # @login_required(login_url='login')
 def edit_request(request, id):
     req = get_object_or_404(Request, id=id)
-    # Only allow the owner or admin to edit
+
     if not (request.user == req.user or request.user.is_staff):
         return HttpResponseForbidden("You do not have permission to edit this request.")
 

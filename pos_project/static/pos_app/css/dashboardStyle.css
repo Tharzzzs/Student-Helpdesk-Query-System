@@ -186,3 +186,19 @@ p.empty {
     padding: 0.7rem 0.5rem;
   }
 }
+
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #a9aba9; 
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
