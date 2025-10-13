@@ -3,8 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'pos_app/css/dashboardStyle.css' %}">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'pos_app/css/dashboardStyle.css' %}">
+  <style>
+    #noResultsMessage {
+      color: red;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .filter-select {
+      margin-left: 10px;
+      padding: 5px;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
 
@@ -23,7 +36,13 @@
   <div class="container">
     <div class="top-actions">
       <a href="{% url 'add_request' %}">Add New Request</a>
-      <input type="text" id="search" placeholder="🔍 Search requests..." onkeyup="filterTable()">
+      <input type="text" id="search" placeholder="Search requests..." onkeyup="filterTable()">
+      <select class="filter-select" onchange="applyFilter(this.value)">
+        <option value="all">All</option>
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
     </div>
 
     {% if user.is_staff %}
@@ -36,7 +55,6 @@
       <table id="requestsTable">
         <thead>
           <tr>
-            <!-- <th>ID</th> -->
             <th>Title</th>
             <th>Status</th>
             <th>Date</th>
@@ -46,9 +64,8 @@
         <tbody>
           {% for req in requests %}
           <tr>
-            <!-- <td>{{ req.id }}</td> -->
             <td>{{ req.title }}</td>
-            <td><span class="status {{ req.status }}">{{ req.status }}</span></td>
+            <td><span class="status {{ req.status|lower }}">{{ req.status }}</span></td>
             <td>{{ req.date }}</td>
             <td>
               <a class="view-btn" href="{% url 'request_detail' req.id %}">View</a>
@@ -57,6 +74,7 @@
           {% endfor %}
         </tbody>
       </table>
+      <p id="noResultsMessage"></p>
     {% else %}
       <p class="empty">No requests available. Click "Add New Request" to create one.</p>
     {% endif %}
@@ -64,11 +82,60 @@
 
   <script>
     function filterTable() {
-      const input = document.getElementById("search").value.toLowerCase();
+      const input = document.getElementById("search").value.toLowerCase().trim();
       const rows = document.querySelectorAll("#requestsTable tbody tr");
+      const messageContainer = document.getElementById("noResultsMessage");
+      let visibleCount = 0;
+
+      if (!input) {
+        rows.forEach(row => row.style.display = "");
+        messageContainer.textContent = "";
+        return;
+      }
+
+      try {
+        rows.forEach(row => {
+          const text = row.innerText.toLowerCase();
+          if (text.includes(input)) {
+            row.style.display = "";
+            visibleCount++;
+          } else {
+            row.style.display = "none";
+          }
+        });
+
+        messageContainer.textContent = visibleCount === 0 ? "No results found." : "";
+      } catch (error) {
+        console.error("Filter error:", error);
+        messageContainer.textContent = "Something went wrong. Please try again.";
+      }
+    }
+
+    function applyFilter(value) {
+      const validFilters = ["all", "pending", "approved", "cancelled"];
+      const rows = document.querySelectorAll("#requestsTable tbody tr");
+      const messageContainer = document.getElementById("noResultsMessage");
+      let visibleCount = 0;
+
+      if (!validFilters.includes(value)) {
+        messageContainer.textContent = "Invalid filter ignored. Showing default results.";
+        filterTable(); 
+        return;
+      }
+
       rows.forEach(row => {
-        row.style.display = row.innerText.toLowerCase().includes(input) ? "" : "none";
+        const statusCell = row.querySelector(".status");
+        const status = statusCell ? statusCell.textContent.toLowerCase() : "";
+
+        if (value === "all" || status === value) {
+          row.style.display = "";
+          visibleCount++;
+        } else {
+          row.style.display = "none";
+        }
       });
+
+      messageContainer.textContent = visibleCount === 0 ? "No results found." : "";
     }
   </script>
 
