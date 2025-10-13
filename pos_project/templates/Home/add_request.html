@@ -20,28 +20,28 @@
         {% csrf_token %}
 
         <div class="form-group">
-          <label class="form-label">Title:</label>
-          <input type="text" name="title" class="form-input" required>
-        </div>
+  <label class="form-label" for="title">Title:</label>
+  <input type="text" id="title" name="title" class="form-input" required>
+</div>
 
-        <div class="form-group">
-          <label class="form-label">Status:</label>
-          <select name="status" class="form-select" required>
-            <option value="Pending">Pending</option>
-            <option value="Approved">Approved</option>
-            <option value="Cancelled">Cancelled</option>
-          </select>
-        </div>
+    <div class="form-group">
+      <label class="form-label" for="status">Status:</label>
+      <select id="status" name="status" class="form-select" required>
+        <option value="Pending">Pending</option>
+        <option value="Approved">Approved</option>
+        <option value="Cancelled">Cancelled</option>
+      </select>
+    </div>
 
-        <div class="form-group">
-          <label class="form-label">Date:</label>
-          <input type="date" name="date" class="form-input" required>
-        </div>
+    <div class="form-group">
+      <label class="form-label" for="date">Date:</label>
+      <input type="date" id="date" name="date" class="form-input" required>
+    </div>
 
-        <div class="form-group">
-          <label class="form-label">Description:</label>
-          <textarea name="description" class="form-textarea"></textarea>
-        </div>
+    <div class="form-group">
+      <label class="form-label" for="description">Description:</label>
+      <textarea id="description" name="description" class="form-textarea"></textarea>
+    </div>
 
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">Save</button>
