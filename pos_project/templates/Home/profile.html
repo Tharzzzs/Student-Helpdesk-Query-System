@@ -20,9 +20,13 @@
       {{ form.as_p }}
       <button type="submit">Save</button>
     </form>
+
     {% for message in messages %}
       <p>{{ message }}</p>
     {% endfor %}
-  </div>
+
+   
+    <a href="{% url 'change_password' %}" class="btn">Change Password</a>
+</div>
 </body>
 </html>
