@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Request</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'pos_app/css/edit_requestStyle.css' %}">
+</head>
+<body>
+  <h1>Edit Request</h1>
+
+  <form method="POST">
+    {% csrf_token %}
+    
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required value="{{ request_obj.title }}">
+
+    <label for="status">Status:</label>
+    <select id="status" name="status" required>
+      <option value="Pending" {% if request_obj.status == "Pending" %}selected{% endif %}>Pending</option>
+      <option value="Approved" {% if request_obj.status == "Approved" %}selected{% endif %}>Approved</option>
+      <option value="Cancelled" {% if request_obj.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+    </select>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required value="{{ request_obj.date|date:'Y-m-d' }}">
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" rows="4" required>{{ request_obj.description }}</textarea>
+
+    <div class="form-actions">
+      <button type="submit" class="button save">Save Changes</button>
+      <a href="{% url 'dashboard' %}" class="button cancel">Cancel</a>
+    </div>
+  </form>
+</body>
+</html>

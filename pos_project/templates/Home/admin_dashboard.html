@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'pos_app/css/dashboardStyle.css' %}">
+</head>
+<body>
+  <header>
+    <h1>Admin Panel</h1>
+    <nav>
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+  </header>
+  <div class="container">
+    <h2>User Profiles</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Contact</th>
+          <th>Program</th>
+          <th>Year Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for profile in users %}
+        <tr>
+          <td>{{ profile.user.username }}</td>
+          <td>{{ profile.contact }}</td>
+          <td>{{ profile.program }}</td>
+          <td>{{ profile.year_level }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

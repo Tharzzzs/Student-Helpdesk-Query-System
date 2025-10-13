@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard</title>
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'pos_app/css/dashboard.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'pos_app/css/dashboardStyle.css' %}">
 </head>
 <body>
 
   <header>
     <h1>EduAssist Dashboard</h1>
     <nav>
-      <a href="#">Home</a>
+      <a href="{% url 'profile' %}">Profile</a>
+      {% if user.is_staff %}
+        <a href="{% url 'admin_dashboard' %}">Admin Panel</a>
+      {% endif %}
       <a href="{% url 'add_request' %}">New Request</a>
       <a href="{% url 'logout' %}">Logout</a>
     </nav>
@@ -19,15 +22,21 @@
 
   <div class="container">
     <div class="top-actions">
-      <a href="{% url 'add_request' %}">➕ Add New Request</a>
+      <a href="{% url 'add_request' %}">Add New Request</a>
       <input type="text" id="search" placeholder="🔍 Search requests..." onkeyup="filterTable()">
     </div>
+
+    {% if user.is_staff %}
+      <h2>All Requests (Admin View)</h2>
+    {% else %}
+      <h2>My Requests</h2>
+    {% endif %}
 
     {% if requests %}
       <table id="requestsTable">
         <thead>
           <tr>
-            <th>ID</th>
+            <!-- <th>ID</th> -->
             <th>Title</th>
             <th>Status</th>
             <th>Date</th>
@@ -37,7 +46,7 @@
         <tbody>
           {% for req in requests %}
           <tr>
-            <td>{{ req.id }}</td>
+            <!-- <td>{{ req.id }}</td> -->
             <td>{{ req.title }}</td>
             <td><span class="status {{ req.status }}">{{ req.status }}</span></td>
             <td>{{ req.date }}</td>
