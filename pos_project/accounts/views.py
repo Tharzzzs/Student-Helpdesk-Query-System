@@ -121,7 +121,11 @@ def edit_request(request, id):
 
 # @login_required(login_url='login')
 def delete_request(request, id):
-    req = get_object_or_404(Request, id=id, user=request.user)
+    if request.user.is_staff or request.user.is_superuser:
+        req = get_object_or_404(Request, id=id)
+    else:
+        req = get_object_or_404(Request, id=id, user=request.user)
+
     if request.method == 'POST':
         req.delete()
         return redirect('dashboard')
