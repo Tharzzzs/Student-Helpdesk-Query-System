@@ -1,133 +1,179 @@
-/* Edit Request Page - EduAssist Theme */
+/* Edit Request Page - Same Layout as Request Details */
+
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: #f5f6fa;
+  background: #f7f6f3;
   margin: 0;
-  padding: 40px;
+  padding: 0;
   color: #1e1e2f;
   line-height: 1.6;
 }
 
-h1 {
-  color: #000;
+/* ===== Navbar ===== */
+header {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 3rem;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.3rem;
   font-weight: 700;
-  font-size: 2rem;
-  margin-bottom: 20px;
+  color: #000;
 }
 
-/* Added red accent for EduAssist branding */
-h1 .accent {
-  color: #c62828;
+nav {
+  display: flex;
+  gap: 2rem;
 }
 
-form {
+nav a {
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+nav a:hover {
+  color: #777;
+}
+
+.user-icon {
+  color: #000;
+  font-weight: 500;
+}
+
+/* ===== Main Content ===== */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem 1rem;
+}
+
+/* ===== Card ===== */
+.card {
   background: #fff;
   padding: 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  max-width: 600px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px;
+  border: 1px solid #eaeaea;
 }
 
+.card h1 {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #000;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+/* ===== Form ===== */
 label {
   display: block;
   font-weight: 600;
-  margin-top: 1.2rem;
   color: #000;
-  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  margin-top: 1.2rem;
 }
 
 input,
-textarea,
-select {
+select,
+textarea {
   width: 100%;
   padding: 0.8rem;
-  margin-top: 0.5rem;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid #ddd;
-  font-size: 1rem;
   background: #fff;
-  transition: all 0.2s ease;
-  font-family: inherit;
+  font-size: 1rem;
   box-sizing: border-box;
+  transition: border-color 0.2s ease;
 }
 
 input:focus,
-textarea:focus,
-select:focus {
-  border-color: #c62828;
+select:focus,
+textarea:focus {
+  border-color: #000;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.1);
 }
 
 textarea {
-  min-height: 120px;
   resize: vertical;
+  min-height: 120px;
 }
 
-/* Updated button styling to match EduAssist black primary buttons */
-button,
-.button {
-  display: inline-block;
-  text-decoration: none;
-  background-color: #000;
-  color: white;
-  padding: 0.8rem 1.6rem;
-  border-radius: 8px;
+/* ===== Buttons ===== */
+hr {
+  margin: 2rem 0 1.5rem;
   border: none;
-  cursor: pointer;
-  margin-top: 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  border-top: 1px solid #eee;
 }
 
-button:hover,
-.button:hover {
-  background-color: #c62828;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(198, 40, 40, 0.3);
-}
-
-/* Updated cancel button with red accent */
-.button.cancel {
-  background-color: #e53935;
-  margin-left: 10px;
-}
-
-.button.cancel:hover {
-  background-color: #c62828;
-}
-
-.button.back {
-  background-color: #607d8b;
-}
-
-.button.back:hover {
-  background-color: #546e7a;
-}
-
-.form-actions {
-  margin-top: 2rem;
+.btn-group {
   display: flex;
+  justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
 }
 
-@media (max-width: 600px) {
-  body {
-    padding: 20px;
+.button {
+  display: inline-block;
+  text-decoration: none;
+  padding: 0.75rem 1.8rem;
+  font-weight: 600;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.button.edit {
+  background-color: #000;
+  color: #fff;
+}
+
+.button.edit:hover {
+  background-color: #333;
+}
+
+.button.cancel {
+  background-color: #777;
+  color: #fff;
+}
+
+.button.cancel:hover {
+  background-color: #555;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
   }
 
-  form {
+  nav {
+    gap: 1rem;
+  }
+
+  .card {
     padding: 1.5rem;
   }
 
-  .form-actions {
+  .btn-group {
     flex-direction: column;
   }
 
   .button {
     width: 100%;
-    margin-left: 0 !important;
+    text-align: center;
   }
 }
