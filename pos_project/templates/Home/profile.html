@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+  <link rel="stylesheet" href="{% static 'pos_app/css/profileStyle.css' %}">
+</head>
+
+<header>
+    <div class="logo">EduAssist</div>
+    <nav>
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      {% if user.is_staff %}
+      <a href="{% url 'admin_dashboard' %}">Admin Panel</a>
+      {% endif %}
+      <a href="{% url 'add_request' %}">New Request</a>
+      <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+    <a class="user-icon" href="{% url 'profile' %}">Profile</a>
+  </header>
+
+<body>
+
+  
+
+  <div class="profile-container">
+    <h2>My Profile</h2>
+
+    <!-- Display user info -->
+    <div class="user-details">
+      <p><strong>Username:</strong> {{ user_info.username }}</p>
+      <p><strong>Email:</strong> {{ user_info.email }}</p>
+    </div>
+
+    <!-- Editable Profile form -->
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="save-btn">Save Changes</button>
+    </form>
+
+    {% for message in messages %}
+      <p class="message">{{ message }}</p>
+    {% endfor %}
+
+    <form method="get" action="{% url 'change_password' %}">
+      <button type="submit">Change Password</button>
+    </form>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Request Details</title>
+  <link rel="stylesheet" href="{% static 'pos_app/css/request_detailStyle.css' %}">
+</head>
+<body>
+  <!-- ===== NAVIGATION BAR ===== -->
+  <header>
+    <div class="logo">EduAssist</div>
+    <nav>
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      {% if user.is_staff %}
+      <a href="{% url 'admin_dashboard' %}">Admin Panel</a>
+      {% endif %}
+      <a href="{% url 'add_request' %}">New Request</a>
+      <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+    <a class="user-icon" href="{% url 'profile' %}">Profile</a>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main>
+    <div class="card">
+      <h1>Request Details</h1>
+
+      {% if error_message %}
+        <p class="error">{{ error_message }}</p>
+      {% else %}
+        <div class="details">
+          <p><strong>ID:</strong> {{ req.id }}</p>
+          <p><strong>Title:</strong> {{ req.title }}</p>
+          <p><strong>Status:</strong>
+            <span class="status {{ req.status }}">{{ req.status }}</span>
+          </p>
+          <p><strong>Date:</strong> {{ req.date }}</p>
+          <p><strong>Description:</strong></p>
+          <p class="desc">{{ req.description }}</p>
+        </div>
+      {% endif %}
+
+      <hr>
+      <div class="btn-group">
+        <a href="{% url 'edit_request' req.id %}" class="button edit">Edit</a>
+
+        <form action="{% url 'delete_request' req.id %}" method="POST" class="inline-form">
+          {% csrf_token %}
+          <button type="submit" class="button delete" onclick="return confirm('Are you sure you want to delete this request?');">
+            Delete
+          </button>
+        </form>
+
+        <a href="{% url 'dashboard' %}" class="button cancel">Back</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
