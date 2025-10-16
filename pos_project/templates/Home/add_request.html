@@ -8,18 +8,19 @@
 </head>
 <body>
   <!-- ===== NAVIGATION BAR ===== -->
-  <header>
-    <div class="logo">Logo</div>
+   <header>
+    <div class="logo">EduAssist</div>
     <nav>
-      <a href="{% url 'dashboard' %}">Home</a>
-      <a href="#">My Queries</a>
-      <a href="#">Submit Query</a>
-      <a href="#">Query Reports</a>
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      {% if user.is_staff %}
+      <a href="{% url 'admin_dashboard' %}">Admin Panel</a>
+      {% endif %}
+      <a href="{% url 'add_request' %}">New Request</a>
+      <a href="{% url 'logout' %}">Logout</a>
     </nav>
-    <div class="user-icon">
-      <img src="{% static 'pos_app/images/user-icon.png' %}" alt="User Icon">
-    </div>
+    <a class="user-icon" href="{% url 'profile' %}">Profile</a>
   </header>
+  
 
   <!-- ===== MAIN CONTENT ===== -->
   <main>

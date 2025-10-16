@@ -1,0 +1,164 @@
+/* ===== EduAssist Global Theme ===== */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f7f6f3;
+  margin: 0;
+  padding: 0;
+  color: #1e1e2f;
+}
+
+/* ===== Navbar (Matched with Edit Request Page) ===== */
+header {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 3rem;
+  border-bottom: 1px solid #ddd;
+  position: sticky;  /* ✅ Matches Edit Request Page */
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #000;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+nav a:hover {
+  color: #777;
+}
+
+.user-icon {
+  color: #000;
+  font-weight: 500;
+}
+
+/* ===== Profile Page Layout ===== */
+.profile-container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.profile-container h2 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+  border-bottom: 2px solid #1abc9c;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+/* ===== Form ===== */
+.profile-form fieldset {
+  border: none;
+  margin-bottom: 20px;
+}
+
+.profile-form legend {
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 10px;
+}
+
+.profile-form label {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+
+.profile-form input, 
+.profile-form select, 
+.profile-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 5px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+.profile-form input:focus, 
+.profile-form select:focus {
+  outline: none;
+  border-color: #1abc9c;
+  box-shadow: 0 0 3px rgba(26, 188, 156, 0.5);
+}
+
+/* ===== Buttons ===== */
+.btn-save {
+  display: inline-block;
+  background-color: #1abc9c;
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 1rem;
+}
+
+.btn-save:hover {
+  background-color: #16a085;
+}
+
+.btn-secondary {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #3498db;
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: #2980b9;
+}
+
+/* ===== Messages ===== */
+.messages {
+  margin-top: 20px;
+}
+
+.messages p {
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-weight: 500;
+  margin: 8px 0;
+}
+
+.messages .success {
+  background-color: #e8f8f5;
+  color: #1e8449;
+  border-left: 4px solid #1abc9c;
+}
+
+.messages .error {
+  background-color: #fdecea;
+  color: #c0392b;
+  border-left: 4px solid #e74c3c;
+}
+
+/* ===== Extra Actions ===== */
+.extra-actions {
+  margin-top: 30px;
+  text-align: center;
+}
