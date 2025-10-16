@@ -12,15 +12,20 @@ from .models import Request, Profile
 from .forms import ProfileForm, SearchForm
 from django.http import HttpResponseForbidden
 
+
 def login_view(request):
+    
+    storage = messages.get_messages(request)
+    storage.used = True
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
-            # messages.success(request, 'Login successful!')
             return redirect('dashboard')
         else:
             messages.error(request, 'Invalid username or password.')
@@ -28,9 +33,10 @@ def login_view(request):
     return render(request, 'accounts/login.html')
 
 
+
 def logout_view(request):
     logout(request)
-    messages.success(request, 'Logout successful!')
+    request.session.flush()
     return redirect('landing')
 
 
@@ -91,6 +97,8 @@ def dashboard_view(request):
         )
 
     return render(request, 'Home/dashboard.html', {'requests': requests, 'form': form})
+
+
 # @login_required(login_url='login')
 def request_detail(request, id):
 
@@ -155,9 +163,10 @@ def add_request(request):
 def landing_page(request):
     return render(request, 'Home/landing.html')
 
-@login_required    
+@login_required
 def profile(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
+
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=profile)
         if form.is_valid():
@@ -165,10 +174,22 @@ def profile(request):
             messages.success(request, "Profile updated successfully.")
             return redirect('profile')
         else:
-            messages.error(request, "Please correct the errors below.")
+            # Error handling
+            if not request.POST.get('contact', ''):
+                messages.error(request, "Contact field cannot be empty.")
+            elif not request.POST.get('contact', '').isdigit() or len(request.POST.get('contact', '')) < 10:
+                messages.error(request, "Incorrect format of contact number.")
+            else:
+                messages.error(request, "Profile update failed, please try again later.")
     else:
         form = ProfileForm(instance=profile)
-    return render(request, 'Home/profile.html', {'form': form})
+
+    # ✅ Pass both form and user info to template
+    return render(request, 'Home/profile.html', {
+        'form': form,
+        'user_info': request.user,
+    })
+
 
 
 @user_passes_test(lambda u: u.is_staff)

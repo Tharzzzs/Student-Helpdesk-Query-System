@@ -1,49 +1,54 @@
 /* Dashboard - EduAssist Theme */
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: #f5f6fa;
+  background: #f7f6f3;
   margin: 0;
   padding: 0;
   color: #1e1e2f;
   line-height: 1.6;
 }
 
+/* ===== Navbar (Matched with Edit Request Page) ===== */
 header {
-  background: #fff;
-  color: #000;
-  padding: 1rem 2rem;
+  background-color: #fff;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  border-bottom: 1px solid #e5e5e5;
+  justify-content: space-between;
+  padding: 1.2rem 3rem;
+  border-bottom: 1px solid #ddd;
+  position: sticky;  /* ✅ Matches Edit Request Page */
+  top: 0;
+  z-index: 1000;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 1.5rem;
-  letter-spacing: 0.5px;
+.logo {
+  font-size: 1.3rem;
   font-weight: 700;
   color: #000;
 }
 
-/* EduAssist branding with red accent */
-header h1 .accent {
-  color: #c62828;
+nav {
+  display: flex;
+  gap: 2rem;
 }
 
 nav a {
-  color: #333;
-  margin-left: 1.5rem;
+  color: #000;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
 nav a:hover {
-  color: #c62828;
+  color: #777;
 }
 
+.user-icon {
+  color: #000;
+  font-weight: 500;
+}
+
+/* ===== Main Container ===== */
 .container {
   max-width: 1000px;
   margin: 2rem auto;
@@ -53,6 +58,7 @@ nav a:hover {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
+/* ===== Top Actions ===== */
 .top-actions {
   display: flex;
   justify-content: space-between;
@@ -62,7 +68,7 @@ nav a:hover {
   gap: 1rem;
 }
 
-/* Updated button styling to match EduAssist black primary buttons */
+/* Primary Buttons */
 .top-actions a {
   background: #000;
   color: #fff;
@@ -76,11 +82,12 @@ nav a:hover {
 }
 
 .top-actions a:hover {
-  background: #c62828;
+  background: #333;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(198, 40, 40, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* ===== Search Bar ===== */
 #search {
   padding: 0.7rem 1rem;
   border: 1px solid #ddd;
@@ -92,9 +99,10 @@ nav a:hover {
 
 #search:focus {
   outline: none;
-  border-color: #c62828;
+  border-color: #000;
 }
 
+/* ===== Table ===== */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -121,7 +129,7 @@ table tr:hover {
   background: #f9faff;
 }
 
-/* Updated status badges with better contrast */
+/* ===== Status Badges ===== */
 .status {
   padding: 0.4rem 0.9rem;
   border-radius: 20px;
@@ -145,7 +153,7 @@ table tr:hover {
   color: #721c24;
 }
 
-/* Updated view button to match EduAssist theme */
+/* ===== View Button ===== */
 .view-btn {
   background: #000;
   color: #fff;
@@ -159,10 +167,11 @@ table tr:hover {
 }
 
 .view-btn:hover {
-  background: #c62828;
+  background: #333;
   transform: translateY(-1px);
 }
 
+/* ===== Empty State ===== */
 p.empty {
   text-align: center;
   color: #777;
@@ -170,7 +179,38 @@ p.empty {
   margin-top: 2rem;
 }
 
+/* ===== Buttons ===== */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #a9aba9;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
+
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  nav {
+    gap: 1rem;
+  }
+
+  .container {
+    padding: 1.5rem;
+  }
+
   .top-actions {
     flex-direction: column;
     align-items: stretch;
@@ -185,20 +225,23 @@ p.empty {
     font-size: 0.85rem;
     padding: 0.7rem 0.5rem;
   }
+
+  .button,
+  .view-btn {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 
-.btn {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #a9aba9; 
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  margin-top: 10px;
-  text-align: center;
-}
-
-.btn:hover {
-  background-color: #45a049;
-}
+#noResultsMessage {
+      color: red;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .filter-select {
+      margin-left: 10px;
+      padding: 5px;
+      border-radius: 5px;
+    }

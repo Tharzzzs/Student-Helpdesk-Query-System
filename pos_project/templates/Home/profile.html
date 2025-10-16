@@ -1,32 +1,53 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Profile</title>
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'pos_app/css/dashboardStyle.css' %}">
+  <link rel="stylesheet" href="{% static 'pos_app/css/profileStyle.css' %}">
 </head>
-<body>
-  <header>
-    <h1>Profile</h1>
+
+<header>
+    <div class="logo">EduAssist</div>
     <nav>
       <a href="{% url 'dashboard' %}">Dashboard</a>
+      {% if user.is_staff %}
+      <a href="{% url 'admin_dashboard' %}">Admin Panel</a>
+      {% endif %}
+      <a href="{% url 'add_request' %}">New Request</a>
       <a href="{% url 'logout' %}">Logout</a>
     </nav>
+    <a class="user-icon" href="{% url 'profile' %}">Profile</a>
   </header>
-  <div class="container">
+
+<body>
+
+  
+
+  <div class="profile-container">
+    <h2>My Profile</h2>
+
+    <!-- Display user info -->
+    <div class="user-details">
+      <p><strong>Username:</strong> {{ user_info.username }}</p>
+      <p><strong>Email:</strong> {{ user_info.email }}</p>
+    </div>
+
+    <!-- Editable Profile form -->
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit">Save</button>
+      <button type="submit" class="save-btn">Save Changes</button>
     </form>
 
     {% for message in messages %}
-      <p>{{ message }}</p>
+      <p class="message">{{ message }}</p>
     {% endfor %}
 
-   
-    <a href="{% url 'change_password' %}" class="btn">Change Password</a>
-</div>
+    <form method="get" action="{% url 'change_password' %}">
+      <button type="submit">Change Password</button>
+    </form>
+  </div>
+
 </body>
 </html>
