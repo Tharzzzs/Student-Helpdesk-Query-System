@@ -1,15 +1,21 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  background: #f7f7f7;
+  background: 
+    linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+    url("../images/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
   padding: 20px 50px;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
+  background: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
 }
 
 header .logo {
@@ -28,8 +34,14 @@ nav a {
   background: black;
   color: white;
   border-radius: 4px;
+  transition: background 0.3s;
 }
 
+.signup-btn:hover {
+  background: #b30000;
+}
+
+/* Main Content */
 main {
   display: flex;
   align-items: center;
@@ -61,12 +73,21 @@ main {
   color: white;
   text-decoration: none;
   border-radius: 4px;
+  transition: background 0.3s, transform 0.2s;
 }
 
+.get-started:hover {
+  background: #b30000;
+  transform: translateY(-2px);
+}
+
+/* Right preview box */
 .right .preview-box {
   width: 400px;
   height: 300px;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
 }
