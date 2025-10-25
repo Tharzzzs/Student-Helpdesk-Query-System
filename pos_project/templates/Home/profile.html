@@ -7,10 +7,11 @@
   <link rel="stylesheet" href="{% static 'pos_app/css/profileStyle.css' %}">
 </head>
 
-<header>
+<body>
+  <header>
     <div class="logo">EduAssist</div>
     <nav>
-      <a href="{% url 'dashboard' %}">Dashboard</a>
+      <a href="{% url 'dashboard' %}">Request</a>
       {% if user.is_staff %}
       <a href="{% url 'admin_dashboard' %}">Admin Panel</a>
       {% endif %}
@@ -20,34 +21,79 @@
     <a class="user-icon" href="{% url 'profile' %}">Profile</a>
   </header>
 
-<body>
+  <main>
+    <div class="profile-card">
+      <h2>My Profile</h2>
+      <p class="profile-subtitle">Manage your personal information</p>
 
-  
+      <div class="user-details">
+        <p><strong>Username:</strong> {{ user_info.username|default:"" }}</p>
+        <p><strong>Email:</strong> {{ user_info.email|default:"" }}</p>
+      </div>
 
-  <div class="profile-container">
-    <h2>My Profile</h2>
+      <!-- Editable Profile Form -->
+      <form method="post" id="profileForm" class="profile-form">
+        {% csrf_token %}
+        {{ form.as_p }}
 
-    <!-- Display user info -->
-    <div class="user-details">
-      <p><strong>Username:</strong> {{ user_info.username }}</p>
-      <p><strong>Email:</strong> {{ user_info.email }}</p>
+        <div class="form-actions">
+          <button type="button" id="editBtn" class="btn-secondary">Edit</button>
+          <button type="submit" id="saveBtn" class="btn-save" disabled>Save Changes</button>
+        </div>
+      </form>
+
+      <div class="messages">
+        {% for message in messages %}
+          <p class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+      </div>
+
+      <div class="extra-actions">
+        <form method="get" action="{% url 'change_password' %}">
+          <button type="submit" class="btn-secondary">Change Password</button>
+        </form>
+      </div>
     </div>
+  </main>
 
-    <!-- Editable Profile form -->
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="save-btn">Save Changes</button>
-    </form>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const editBtn = document.getElementById("editBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const editableFields = ["id_contact", "id_program", "id_year_level"];
 
-    {% for message in messages %}
-      <p class="message">{{ message }}</p>
-    {% endfor %}
+    // Lock all editable fields on load
+    editableFields.forEach(fieldId => {
+      const field = document.getElementById(fieldId);
+      if (field) {
+        field.setAttribute("readonly", "true");
+        field.classList.remove("editable");
+      }
+    });
 
-    <form method="get" action="{% url 'change_password' %}">
-      <button type="submit">Change Password</button>
-    </form>
-  </div>
+    let isEditing = false;
 
+    editBtn.addEventListener("click", () => {
+      isEditing = !isEditing;
+
+      editableFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+          if (isEditing) {
+            field.removeAttribute("readonly");
+            field.classList.add("editable");
+          } else {
+            field.setAttribute("readonly", "true");
+            field.classList.remove("editable");
+          }
+        }
+      });
+
+      // Toggle button states
+      editBtn.textContent = isEditing ? "Cancel Edit" : "Edit";
+      saveBtn.disabled = !isEditing;
+    });
+  });
+</script>
 </body>
 </html>

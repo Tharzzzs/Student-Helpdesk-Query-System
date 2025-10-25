@@ -3,15 +3,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Request Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Details - EduAssist</title>
   <link rel="stylesheet" href="{% static 'pos_app/css/request_detailStyle.css' %}">
 </head>
 <body>
-  <!-- ===== NAVIGATION BAR ===== -->
+
+  <!-- ===== Navbar ===== -->
   <header>
     <div class="logo">EduAssist</div>
     <nav>
-      <a href="{% url 'dashboard' %}">Dashboard</a>
+      <a href="{% url 'dashboard' %}">Request</a>
       {% if user.is_staff %}
       <a href="{% url 'admin_dashboard' %}">Admin Panel</a>
       {% endif %}
@@ -21,40 +23,37 @@
     <a class="user-icon" href="{% url 'profile' %}">Profile</a>
   </header>
 
-  <!-- ===== MAIN CONTENT ===== -->
-  <main>
-    <div class="card">
-      <h1>Request Details</h1>
 
-      {% if error_message %}
-        <p class="error">{{ error_message }}</p>
-      {% else %}
-        <div class="details">
-          <p><strong>ID:</strong> {{ req.id }}</p>
-          <p><strong>Title:</strong> {{ req.title }}</p>
-          <p><strong>Status:</strong>
-            <span class="status {{ req.status }}">{{ req.status }}</span>
-          </p>
-          <p><strong>Date:</strong> {{ req.date }}</p>
-          <p><strong>Description:</strong></p>
-          <p class="desc">{{ req.description }}</p>
-        </div>
-      {% endif %}
+  <!-- ===== Request Details ===== -->
+  <div class="detail-container">
+    <h2>Request Details</h2>
 
-      <hr>
-      <div class="btn-group">
-        <a href="{% url 'edit_request' req.id %}" class="button edit">Edit</a>
-
-        <form action="{% url 'delete_request' req.id %}" method="POST" class="inline-form">
-          {% csrf_token %}
-          <button type="submit" class="button delete" onclick="return confirm('Are you sure you want to delete this request?');">
-            Delete
-          </button>
-        </form>
-
-        <a href="{% url 'dashboard' %}" class="button cancel">Back</a>
-      </div>
+    <div class="detail-item">
+      <strong>Title:</strong> <span>{{ req.title }}</span>
     </div>
-  </main>
+
+    <div class="detail-item">
+      <strong>Status:</strong>
+      <span class="status {{ req.status }}">{{ req.status }}</span>
+    </div>
+
+    <div class="detail-item">
+      <strong>Date:</strong> <span>{{ req.date }}</span>
+    </div>
+
+    <div class="detail-item">
+      <strong>Description:</strong>
+      <div class="description-box">{{ req.description }}</div>
+    </div>
+
+    <div class="detail-actions">
+      {% if request.user == req.user or request.user.is_staff %}
+      <a href="{% url 'edit_request' req.id %}" class="btn-primary">Edit</a>
+      <a href="{% url 'delete_request' req.id %}" class="btn-danger" onclick="return confirm('Are you sure you want to delete this request?');">Delete</a>
+      {% endif %}
+      <a href="{% url 'dashboard' %}" class="btn-secondary">Back</a>
+    </div>
+  </div>
+
 </body>
 </html>
