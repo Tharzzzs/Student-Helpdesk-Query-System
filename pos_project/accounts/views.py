@@ -99,7 +99,7 @@ def dashboard_view(request):
     return render(request, 'Home/dashboard.html', {'requests': requests, 'form': form})
 
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def request_detail(request, id):
 
     req = get_object_or_404(Request, id=id)
@@ -109,7 +109,7 @@ def request_detail(request, id):
     return render(request, 'Home/request_detail.html', {'req': req})
 
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def edit_request(request, id):
     req = get_object_or_404(Request, id=id)
 
@@ -122,12 +122,12 @@ def edit_request(request, id):
         req.date = request.POST.get('date')
         req.description = request.POST.get('description')
         req.save()
-        return redirect('dashboard')
+        return redirect('request_detail', id=req.id)
 
     return render(request, 'Home/edit_request.html', {'request_obj': req})
 
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def delete_request(request, id):
     if request.user.is_staff or request.user.is_superuser:
         req = get_object_or_404(Request, id=id)
@@ -140,7 +140,7 @@ def delete_request(request, id):
 
     return render(request, 'Home/confirm_delete.html', {'req': req})
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def add_request(request):
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -168,28 +168,37 @@ def profile(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
+        # Bind POST data but restrict to specific editable fields
         form = ProfileForm(request.POST, instance=profile)
+
+        # ✅ Only allow these fields to be saved
+        allowed_fields = {"contact_number", "program", "year_level"}
+
         if form.is_valid():
-            form.save()
-            messages.success(request, "Profile updated successfully.")
+            # Manually update only allowed fields
+            for field_name in allowed_fields:
+                if field_name in form.cleaned_data:
+                    setattr(profile, field_name, form.cleaned_data[field_name])
+
+            profile.save()
+            
             return redirect('profile')
         else:
-            # Error handling
-            if not request.POST.get('contact', ''):
+            # Handle common validation issues
+            contact = request.POST.get('contact_number', '').strip()
+            if not contact:
                 messages.error(request, "Contact field cannot be empty.")
-            elif not request.POST.get('contact', '').isdigit() or len(request.POST.get('contact', '')) < 10:
+            elif not contact.isdigit() or len(contact) < 10:
                 messages.error(request, "Incorrect format of contact number.")
             else:
                 messages.error(request, "Profile update failed, please try again later.")
     else:
         form = ProfileForm(instance=profile)
 
-    # ✅ Pass both form and user info to template
     return render(request, 'Home/profile.html', {
         'form': form,
         'user_info': request.user,
     })
-
 
 
 @user_passes_test(lambda u: u.is_staff)

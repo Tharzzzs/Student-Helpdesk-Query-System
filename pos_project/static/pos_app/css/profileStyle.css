@@ -1,7 +1,7 @@
-/* ===== EduAssist Global Theme ===== */
+/* ===== General Theme ===== */
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: #f7f6f3;
+  background-color: #f8f7f4;
   margin: 0;
   padding: 0;
   color: #1e1e2f;
@@ -15,7 +15,7 @@ header {
   justify-content: space-between;
   padding: 1.2rem 3rem;
   border-bottom: 1px solid #ddd;
-  position: sticky;  /* ✅ Matches Edit Request Page */
+  position: sticky;
   top: 0;
   z-index: 1000;
 }
@@ -24,6 +24,7 @@ header {
   font-size: 1.3rem;
   font-weight: 700;
   color: #000;
+  letter-spacing: 0.5px;
 }
 
 nav {
@@ -35,102 +36,158 @@ nav a {
   color: #000;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.2s ease;
+  position: relative;
+  padding: 0.4rem 0.6rem;
+  transition: all 0.3s ease;
 }
 
+/* Hover effect: underline grows in smoothly */
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0%;
+  height: 2px;
+  background-color: #000;
+  transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* Optional: soft background fade */
 nav a:hover {
-  color: #777;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
 }
 
 .user-icon {
   color: #000;
   font-weight: 500;
+  text-decoration: none;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
 }
 
-/* ===== Profile Page Layout ===== */
-.profile-container {
+.user-icon:hover {
+  transform: scale(1.05);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+/* ===== Profile Card ===== */
+.profile-card {
   max-width: 800px;
-  margin: 40px auto;
-  background: #fff;
-  padding: 30px 40px;
+  margin: 50px auto;
+  background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 40px 50px;
 }
 
-.profile-container h2 {
-  margin-bottom: 20px;
-  color: #2c3e50;
-  border-bottom: 2px solid #1abc9c;
-  display: inline-block;
-  padding-bottom: 5px;
-}
-
-/* ===== Form ===== */
-.profile-form fieldset {
-  border: none;
-  margin-bottom: 20px;
-}
-
-.profile-form legend {
+.profile-card h2 {
+  margin-bottom: 5px;
+  font-size: 1.6rem;
   font-weight: 600;
-  color: #34495e;
-  margin-bottom: 10px;
 }
 
-.profile-form label {
-  display: block;
-  margin-top: 10px;
+.profile-subtitle {
+  color: #666;
   font-size: 0.95rem;
+  margin-bottom: 25px;
 }
 
-.profile-form input, 
-.profile-form select, 
+/* ===== User Info ===== */
+.user-details {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.user-details p {
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+/* ===== Form Styling ===== */
+.profile-form label {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.profile-form input,
+.profile-form select,
 .profile-form textarea {
   width: 100%;
   padding: 10px;
+  border-radius: 8px;
   border: 1px solid #ccc;
-  border-radius: 6px;
-  margin-top: 5px;
   font-size: 0.95rem;
+  margin-bottom: 15px;
   box-sizing: border-box;
+  background-color: #f9f9f9;
 }
 
-.profile-form input:focus, 
-.profile-form select:focus {
-  outline: none;
-  border-color: #1abc9c;
-  box-shadow: 0 0 3px rgba(26, 188, 156, 0.5);
+.profile-form input[readonly],
+.profile-form select[readonly],
+.profile-form textarea[readonly] {
+  background-color: #f0f0f0;
+  color: #555;
+  cursor: not-allowed;
+}
+
+.profile-form input.editable,
+.profile-form select.editable {
+  background-color: #fff;
+  border-color: #000;
 }
 
 /* ===== Buttons ===== */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
 .btn-save {
-  display: inline-block;
-  background-color: #1abc9c;
+  background-color: #000;
   color: #fff;
   border: none;
   padding: 10px 25px;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s;
   font-size: 1rem;
+  transition: background 0.3s ease;
 }
 
 .btn-save:hover {
-  background-color: #16a085;
+  background-color: #222;
+}
+
+.btn-save:disabled {
+  background-color: #999;
+  cursor: not-allowed;
 }
 
 .btn-secondary {
-  display: inline-block;
-  text-decoration: none;
-  background-color: #3498db;
+  background-color: #000;
   color: #fff;
+  border: none;
   padding: 8px 20px;
   border-radius: 6px;
-  transition: background 0.3s;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 0.95rem;
 }
 
 .btn-secondary:hover {
-  background-color: #2980b9;
+  background-color: #222;
 }
 
 /* ===== Messages ===== */
@@ -159,6 +216,6 @@ nav a:hover {
 
 /* ===== Extra Actions ===== */
 .extra-actions {
-  margin-top: 30px;
-  text-align: center;
+  text-align: right;
+  margin-top: 20px;
 }
